@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Game</title>
+<style>
+    body {
+        margin: 0;
+        background: #000;
+        color: white;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        overflow-x: hidden;
+    }
+
+    .page {
+        display: none;
+        padding: 40px 20px;
+        animation: fade 1s ease-in-out forwards;
+        min-height: 100vh;
+        box-sizing: border-box;
+    }
+
+    @keyframes fade {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    button {
+        padding: 15px 30px;
+        font-size: 18px;
+        border: none;
+        border-radius: 10px;
+        margin: 10px 0;
+        cursor: pointer;
+        background: #ff5c9a;
+        color: white;
+        transition: background 0.3s;
+    }
+
+    button:hover {
+        background: #ff85b8;
+    }
+
+    /* Floating Hearts */
+    .heart {
+        position: fixed;
+        bottom: -10px;
+        color: #ff4d6d;
+        font-size: 20px;
+        animation: rise 5s linear forwards;
+        pointer-events: none;
+    }
+
+    @keyframes rise {
+        0% { transform: translateY(0) scale(1); opacity: 1; }
+        100% { transform: translateY(-800px) scale(1.5); opacity: 0; }
+    }
+
+    /* Fireworks */
+    .firework {
+        position: absolute;
+        width: 5px;
+        height: 5px;
+        background: white;
+        border-radius: 50%;
+        animation: explode 1s ease-out forwards;
+        pointer-events: none;
+    }
+
+    @keyframes explode {
+        0% { transform: scale(1); opacity: 1; }
+        100% { transform: scale(20); opacity: 0; }
+    }
+
+    img {
+        max-width: 90%;
+        border-radius: 20px;
+        margin-top: 20px;
+    }
+
+    @media(max-width:600px){
+        button { width: 80%; font-size:16px; }
+        h1 { font-size: 24px; }
+        h2 { font-size: 20px; }
+    }
+</style>
+</head>
+<body>
+
+<!-- PAGE 1: Start -->
+<div id="start" class="page" style="display:block;">
+    <h1>Welcome Babesh ❤️</h1>
+    <p>Ready for a small birthday game?</p>
+    <button onclick="showPage('q1')">Start</button>
+</div>
+
+<!-- PAGE 2: Question 1 -->
+<div id="q1" class="page">
+    <h1>When did we meet?</h1>
+    <button onclick="wrong()">February</button>
+    <button onclick="wrong()">January</button>
+    <button onclick="showPage('q2')">April 2024</button>
+</div>
+
+<!-- PAGE 3: Question 2 -->
+<div id="q2" class="page">
+    <h1>What do you call me?</h1>
+    <button onclick="wrong()">Baby</button>
+    <button onclick="showPage('q3')">Babesh ❤️</button>
+    <button onclick="wrong()">Love</button>
+</div>
+
+<!-- PAGE 4: Question 3 -->
+<div id="q3" class="page">
+    <h1>Where are we planning to go together?</h1>
+    <button onclick="wrong()">Paris</button>
+    <button onclick="showPage('congrats')">Amsterdam 🇳🇱</button>
+    <button onclick="wrong()">Dubai</button>
+</div>
+
+<!-- PAGE 5: Congratulations Page -->
+<div id="congrats" class="page">
+    <h1 style="font-size:50px; color:#ffda79;">🎉 CONGRATULATIONS 🎉</h1>
+    <h2>You’re the best boyfriend ever!</h2>
+    <p>✨ Enjoy the animations while they last ✨</p>
+    <button onclick="showPage('final')">Click here for words of appreciation</button>
+</div>
+
+<!-- PAGE 6: Final Message Page -->
+<div id="final" class="page">
+    <h1>Happy Birthday, मेरे महादेव ❤️</h1>
+    <p style="font-size:20px; line-height:1.6;">
+        “I may not be your past or your future, but I promise to fight through every 
+        struggle the present holds for us.<br><br>
+        I love you more every single day and I can’t wait to hug you again.”
+    </p>
+    <img id="photo" src="yourphoto.jpg" alt="Birthday Photo">
+    <button onclick="location.reload()">Play Again</button>
+</div>
+
+<script>
+// Page switching
+function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+    document.getElementById(id).style.display = 'block';
+
+    if (id === "final") launchFireworks();
+    if (id === "congrats") startHearts();
+}
+
+// Wrong answer alert
+function wrong() {
+    alert("Try again, babesh 😘");
+}
+
+// Floating hearts
+function startHearts() {
+    const heartInterval = setInterval(() => {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = "❤️";
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.fontSize = (20 + Math.random()*30) + "px";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 5000);
+    }, 300);
+
+    // Stop hearts after 10 seconds
+    setTimeout(() => clearInterval(heartInterval), 10000);
+}
+
+// Fireworks
+function launchFireworks() {
+    for (let i = 0; i < 20; i++) {
+        setTimeout(createFirework, i * 200);
+    }
+}
+
+function createFirework() {
+    const f = document.createElement("div");
+    f.className = "firework";
+    f.style.left = Math.random() * window.innerWidth + "px";
+    f.style.top = Math.random() * window.innerHeight + "px";
+    document.body.appendChild(f);
+    setTimeout(() => f.remove(), 1000);
+}
+</script>
+
+</body>
+</html>
